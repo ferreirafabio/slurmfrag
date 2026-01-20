@@ -25,7 +25,7 @@
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-Visualize SLURM cluster fragmentation — GPU, CPU, and memory usage per node, plus queue depth and pending requests.
+Visualize SLURM cluster fragmentation — GPU, CPU, and memory usage per node, plus queue depth and pending requests. Created with the help of Claude Code (Opus 4.5).
 
 ## Features
 
