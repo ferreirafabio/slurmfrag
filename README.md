@@ -1,4 +1,4 @@
-[![PyPI Downloads](https://static.pepy.tech/badge/slurmfrag)](https://pepy.tech/projects/slurmfrag)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/slurmfrag?period=total&units=INTERNATIONAL_SYSTEM&left_color=GRAY&right_color=BRIGHTGREEN&left_text=downloads)](https://pepy.tech/projects/slurmfrag)
 
 # slurmfrag 🧩
 
