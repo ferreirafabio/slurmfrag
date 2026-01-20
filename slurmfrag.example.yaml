@@ -1,0 +1,83 @@
+# slurmfrag configuration file
+# Copy to ~/.config/slurmfrag/config.yaml or ./slurmfrag.yaml
+
+# Default resource type when not specified
+default_resource: gpu
+
+# =============================================================================
+# GRES Parsing Patterns
+# =============================================================================
+# slurmfrag parses SLURM output from two commands with different formats:
+#
+# 1. sinfo (node info) - uses formats like:
+#    - gpu:8              → simple count
+#    - gpu:H200:8         → with GPU model
+#    - gpu:nvidia:a100:4  → with vendor:model
+#
+# 2. squeue (queue info) - uses TRES format like:
+#    - gres/gpu=6         → TRES format for pending requests
+#    - cpu=48,mem=1500G   → other resources in TRES
+#
+# The patterns below are for sinfo output. Queue parsing uses hardcoded
+# patterns: gres/gpu=(\d+), cpu=(\d+), mem=(\d+)([GMT])?
+#
+# To test what your cluster uses, run:
+#   sinfo -p <partition> -N --noheader -O Gres,GresUsed
+#   squeue -p <partition> -t PD --Format="tres:100"
+# =============================================================================
+
+gres_patterns:
+  gpu:
+    # Pattern to extract GPU count from sinfo GRES field
+    # Matches: gpu:8, gpu:H200:8, gpu:nvidia:a100:4
+    # The (\d+) capture group extracts the count
+    pattern: "gpu[^:]*:(\\d+)"
+    display_name: "GPU"
+    used_symbol: "\u2588"  # █
+    free_symbol: "\u2591"  # ░
+
+  cpu:
+    pattern: "cpu[^:]*:(\\d+)"
+    display_name: "CPU"
+
+  mem:
+    pattern: "mem[^:]*:(\\d+)"
+    display_name: "Memory (GB)"
+
+# =============================================================================
+# Partition-specific overrides
+# =============================================================================
+# Override GRES patterns for specific partitions if they use different formats
+#
+# partitions:
+#   gpu-partition:
+#     resource_type: gpu
+#     gres:
+#       # Example: cluster uses "gpu:tesla:4" format
+#       pattern: "gpu:tesla:(\\d+)"
+#       display_name: "Tesla GPU"
+#
+#   a100-partition:
+#     resource_type: gpu
+#     gres:
+#       # Example: cluster uses "gpu:a100:8" format
+#       pattern: "gpu:a100:(\\d+)"
+#       display_name: "A100 GPU"
+
+# JSON logging configuration
+logging:
+  enabled: false
+  output_dir: "./slurmfrag_logs"
+  interval_minutes: 5
+  retention_days: 7
+
+# Visual settings
+used_symbol: "\u2588"  # █ (full block)
+free_symbol: "\u2591"  # ░ (light shade)
+
+# ANSI color codes (set to empty string to disable)
+color_idle: "\033[32m"      # Green
+color_mixed: "\033[33m"     # Yellow
+color_allocated: "\033[31m" # Red
+color_drain: "\033[90m"     # Gray
+color_reset: "\033[0m"

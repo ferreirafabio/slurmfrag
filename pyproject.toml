@@ -1,0 +1,95 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "slurmfrag"
+version = "0.1.0"
+description = "SLURM Fragmentation Analyzer - Visualize and analyze resource fragmentation across SLURM clusters"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.8"
+authors = [
+    { name = "Fabio Ferreira" },
+]
+keywords = [
+    "slurm",
+    "hpc",
+    "cluster",
+    "fragmentation",
+    "gpu",
+    "monitoring",
+    "visualization",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Clustering",
+    "Topic :: System :: Monitoring",
+    "Topic :: System :: Systems Administration",
+]
+dependencies = [
+    "pyyaml>=5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "mypy>=1.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+slurmfrag = "slurmfrag.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ferreirafabio/slurmfrag"
+Documentation = "https://github.com/ferreirafabio/slurmfrag#readme"
+Repository = "https://github.com/ferreirafabio/slurmfrag"
+Issues = "https://github.com/ferreirafabio/slurmfrag/issues"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/slurmfrag",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["slurmfrag"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --cov=slurmfrag --cov-report=term-missing"
