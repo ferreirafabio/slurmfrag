@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "slurmfrag"
-version = "0.1.0"
+version = "0.1.1"
 description = "SLURM Fragmentation Analyzer - Visualize and analyze resource fragmentation across SLURM clusters"
 readme = "README.md"
 license = "Apache-2.0"

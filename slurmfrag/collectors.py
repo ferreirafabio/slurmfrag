@@ -283,6 +283,9 @@ class SlurmCollector:
         """Collect node information from sinfo."""
         # Get node info with all relevant fields
         # Format: NodeHost StateLong CPUsState Memory AllocMem Gres GresUsed
+        # Explicit column widths are required because -O defaults to 20 chars,
+        # which truncates Gres/GresUsed fields (e.g. "gpu:8(S:0-1),localtmp:3600")
+        # and causes them to merge into a single token when split by whitespace.
         try:
             result = subprocess.run(
                 [
@@ -292,7 +295,7 @@ class SlurmCollector:
                     "-N",
                     "--noheader",
                     "-O",
-                    "NodeHost,StateLong,CPUsState,Memory,AllocMem,Gres,GresUsed",
+                    "NodeHost:40,StateLong:20,CPUsState:25,Memory:20,AllocMem:20,Gres:80,GresUsed:80",
                 ],
                 capture_output=True,
                 text=True,
